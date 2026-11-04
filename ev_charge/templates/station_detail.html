@@ -1,0 +1,191 @@
+{% extends "base.html" %}
+
+{% block title %}{{ station.station_name }} | Station Details{% endblock %}
+
+{% block content %}
+<section class="section" style="padding-top: 36px;">
+    <div class="container">
+        <!-- Breadcrumb / Back Link -->
+        <div style="margin-bottom: 20px;">
+            <a href="{{ url_for('find_stations') }}" style="color: var(--text-secondary); font-size: 0.9rem; display: inline-flex; align-items: center; gap: 8px;">
+                <i class="fa-solid fa-arrow-left"></i> Back to All Charging Stations
+            </a>
+        </div>
+
+        <!-- Station Top Overview Card -->
+        <div style="background: var(--bg-card); border: 1px solid var(--border-color); border-radius: var(--radius-lg); padding: 32px; box-shadow: var(--shadow-md); margin-bottom: 36px;">
+            <div style="display: flex; flex-wrap: wrap; justify-content: space-between; align-items: flex-start; gap: 20px; border-bottom: 1px solid var(--border-color); padding-bottom: 24px; margin-bottom: 24px;">
+                <div>
+                    <div style="display: flex; align-items: center; gap: 12px; margin-bottom: 8px;">
+                        <h1 style="font-size: 2.2rem;">{{ station.station_name }}</h1>
+                        <span class="badge {{ station.availability_badge.class }}" style="font-size: 0.85rem; padding: 6px 14px;">
+                            <span class="status-dot {{ 'dot-available' if station.availability_badge.text == 'Available' else ('dot-warning' if station.availability_badge.text == 'Limited' else 'dot-occupied') }}"></span>
+                            {{ station.availability_badge.text }}
+                        </span>
+                    </div>
+                    <p style="color: var(--text-secondary); font-size: 1rem; display: flex; align-items: center; gap: 8px;">
+                        <i class="fa-solid fa-location-dot" style="color: var(--electric-cyan);"></i>
+                        {{ station.address }}, {{ station.city }}
+                    </p>
+                </div>
+
+                <div style="display: flex; gap: 14px; align-items: center;">
+                    <a href="{{ url_for('reserve_slot', station_id=station.station_id) }}" class="btn btn-primary btn-lg">
+                        <i class="fa-solid fa-bolt"></i> Reserve Charging Slot
+                    </a>
+                </div>
+            </div>
+
+            <!-- Key Quick Metrics -->
+            <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); gap: 18px;">
+                <div style="background: rgba(10, 15, 29, 0.6); padding: 16px; border-radius: var(--radius-md); border: 1px solid var(--border-color);">
+                    <div style="font-size: 0.82rem; color: var(--text-secondary); margin-bottom: 4px;">Operating Hours</div>
+                    <div style="font-size: 1.05rem; font-weight: 700; color: #FFFFFF;"><i class="fa-regular fa-clock" style="color: var(--electric-cyan); margin-right: 6px;"></i>{{ station.operating_hours }}</div>
+                </div>
+
+                <div style="background: rgba(10, 15, 29, 0.6); padding: 16px; border-radius: var(--radius-md); border: 1px solid var(--border-color);">
+                    <div style="font-size: 0.82rem; color: var(--text-secondary); margin-bottom: 4px;">Tariff Rate</div>
+                    <div style="font-size: 1.05rem; font-weight: 700; color: #10B981;"><i class="fa-solid fa-indian-rupee-sign" style="margin-right: 4px;"></i>₹{{ "%.2f"|format(station.min_price) }} / kWh</div>
+                </div>
+
+                <div style="background: rgba(10, 15, 29, 0.6); padding: 16px; border-radius: var(--radius-md); border: 1px solid var(--border-color);">
+                    <div style="font-size: 0.82rem; color: var(--text-secondary); margin-bottom: 4px;">Est. Charge Time</div>
+                    <div style="font-size: 1.05rem; font-weight: 700; color: #FFFFFF;"><i class="fa-solid fa-stopwatch" style="color: #38BDF8; margin-right: 6px;"></i>{{ station.estimated_charge_time }}</div>
+                </div>
+
+                <div style="background: rgba(10, 15, 29, 0.6); padding: 16px; border-radius: var(--radius-md); border: 1px solid var(--border-color);">
+                    <div style="font-size: 0.82rem; color: var(--text-secondary); margin-bottom: 4px;">Waiting Line</div>
+                    <div style="font-size: 1.05rem; font-weight: 700; color: #F59E0B;"><i class="fa-solid fa-hourglass-half" style="margin-right: 6px;"></i>{{ station.waiting_time }} min</div>
+                </div>
+
+                <div style="background: rgba(10, 15, 29, 0.6); padding: 16px; border-radius: var(--radius-md); border: 1px solid var(--border-color);">
+                    <div style="font-size: 0.82rem; color: var(--text-secondary); margin-bottom: 4px;">AI Predicted Demand</div>
+                    <div style="font-size: 1.05rem; font-weight: 700; color: {{ current_demand.color }};">
+                        <i class="fa-solid fa-brain" style="margin-right: 6px;"></i>{{ current_demand.demand_level }} ({{ current_demand.predicted_occupancy }}%)
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Visual Charger-Status Section (Section 7 Requirement) -->
+        <div style="margin-bottom: 48px;">
+            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 16px;">
+                <div>
+                    <h2 style="font-size: 1.6rem;">Live Charger Bays Status</h2>
+                    <p style="color: var(--text-secondary); font-size: 0.9rem;">
+                        Total {{ station.total_chargers }} Chargers: 
+                        <strong style="color: #10B981;">{{ station.available_chargers }} Available</strong>, 
+                        <strong style="color: #EF4444;">{{ station.occupied_chargers }} Occupied</strong>, 
+                        <strong style="color: #F59E0B;">{{ station.maintenance_chargers }} Maintenance</strong>
+                    </p>
+                </div>
+                <button id="livePulseBtn" class="btn btn-outline btn-sm">
+                    <i class="fa-solid fa-bolt"></i> Simulate Telemetry Update
+                </button>
+            </div>
+
+            <!-- Chargers Live Grid -->
+            <div class="chargers-live-grid">
+                {% for charger in station.chargers %}
+                <div class="charger-box status-{{ charger.status.lower() }}">
+                    <div class="charger-box-header">
+                        <div class="charger-code">
+                            <i class="fa-solid fa-plug" style="color: var(--electric-cyan); margin-right: 6px;"></i>
+                            Charger {{ charger.charger_code }}
+                        </div>
+                        <span class="badge {% if charger.status == 'Available' %}badge-success{% elif charger.status == 'Occupied' %}badge-danger{% else %}badge-warning{% endif %}">
+                            {{ charger.status }}
+                        </span>
+                    </div>
+
+                    <div class="charger-box-body">
+                        <p><strong>Type:</strong> {{ charger.charger_type }}</p>
+                        <p><strong>Power:</strong> {{ charger.power_rating }}</p>
+                        <p><strong>Tariff:</strong> ₹{{ "%.2f"|format(charger.price_per_kwh) }}/kWh</p>
+                        {% if charger.status == 'Occupied' %}
+                        <p style="color: #EF4444; font-size: 0.8rem;">
+                            <i class="fa-solid fa-car"></i> In use: {{ charger.current_vehicle or 'Charging in progress' }}
+                        </p>
+                        {% elif charger.status == 'Available' %}
+                        <p style="color: #10B981; font-size: 0.8rem;">
+                            <i class="fa-solid fa-check"></i> Ready for connection
+                        </p>
+                        {% else %}
+                        <p style="color: #F59E0B; font-size: 0.8rem;">
+                            <i class="fa-solid fa-wrench"></i> Under routine maintenance
+                        </p>
+                        {% endif %}
+                    </div>
+
+                    <div style="margin-top: 14px;">
+                        {% if charger.status == 'Available' %}
+                        <a href="{{ url_for('reserve_slot', station_id=station.station_id, charger_id=charger.charger_id) }}" class="btn btn-primary btn-sm" style="width: 100%;">
+                            <i class="fa-solid fa-check"></i> Reserve {{ charger.charger_code }}
+                        </a>
+                        {% else %}
+                        <button class="btn btn-secondary btn-sm" style="width: 100%; opacity: 0.6; cursor: not-allowed;" disabled>
+                            Currently Unavailable
+                        </button>
+                        {% endif %}
+                    </div>
+                </div>
+                {% endfor %}
+            </div>
+        </div>
+
+        <!-- 24-Hour AI Demand Profile for this Station -->
+        <div style="background: var(--bg-card); border: 1px solid var(--border-color); border-radius: var(--radius-lg); padding: 28px; box-shadow: var(--shadow-md);">
+            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px;">
+                <div>
+                    <h3 style="font-size: 1.3rem;">24-Hour Predicted Demand Profile</h3>
+                    <p style="color: var(--text-secondary); font-size: 0.88rem;">Scikit-Learn Random Forest Regressor occupancy forecast throughout the day</p>
+                </div>
+                <span class="badge badge-info">AI Model Active</span>
+            </div>
+            <div style="height: 280px; position: relative;">
+                <canvas id="stationCurveChart"></canvas>
+            </div>
+        </div>
+    </div>
+</section>
+{% endblock %}
+
+{% block extra_js %}
+<script>
+document.addEventListener('DOMContentLoaded', () => {
+    const curveRaw = {{ curve_data|tojson }};
+    const labels = curveRaw.map(c => c.hour);
+    const dataVals = curveRaw.map(c => c.occupancy);
+
+    const ctx = document.getElementById('stationCurveChart')?.getContext('2d');
+    if (ctx) {
+        new Chart(ctx, {
+            type: 'line',
+            data: {
+                labels: labels,
+                datasets: [{
+                    label: 'Predicted Occupancy %',
+                    data: dataVals,
+                    borderColor: '#00D2FF',
+                    backgroundColor: 'rgba(0, 210, 255, 0.12)',
+                    borderWidth: 2.5,
+                    fill: true,
+                    tension: 0.4,
+                    pointRadius: 2.5
+                }]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                plugins: { legend: { display: false } },
+                scales: {
+                    y: { grid: { color: 'rgba(255, 255, 255, 0.06)' }, min: 0, max: 100 },
+                    x: { grid: { color: 'rgba(255, 255, 255, 0.04)' } }
+                }
+            }
+        });
+    }
+});
+</script>
+{% endblock %}
+

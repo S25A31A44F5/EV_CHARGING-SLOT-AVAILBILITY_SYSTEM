@@ -1,0 +1,163 @@
+{% extends "base.html" %}
+
+{% block title %}Reserve Your Charging Slot | EV Charge{% endblock %}
+
+{% block content %}
+<section class="section" style="padding-top: 40px;">
+    <div class="container">
+        <!-- Header -->
+        <div style="margin-bottom: 32px;">
+            <span class="section-tag">Slot Booking Engine</span>
+            <h1 style="font-size: 2.3rem; margin-bottom: 8px;">Reserve Your Charging Slot</h1>
+            <p style="color: var(--text-secondary); font-size: 1.05rem;">
+                Select your preferred station, date, charger point, and time slot to guarantee your charger on arrival.
+            </p>
+        </div>
+
+        <form id="bookingForm" class="booking-layout">
+            <!-- Left Column: Form & Time Slot Selection -->
+            <div class="booking-card">
+                <h3 style="font-size: 1.4rem; margin-bottom: 24px; border-bottom: 1px solid var(--border-color); padding-bottom: 14px;">
+                    <i class="fa-solid fa-sliders" style="color: var(--electric-cyan); margin-right: 8px;"></i>
+                    Booking Preferences
+                </h3>
+
+                <!-- Station Selector -->
+                <div class="form-group">
+                    <label class="form-label" for="stationSelect">Charging Station</label>
+                    <select id="stationSelect" class="form-control" required>
+                        {% for st in stations %}
+                        <option value="{{ st.station_id }}" {% if selected_station and selected_station.station_id == st.station_id %}selected{% endif %}>
+                            {{ st.station_name }} ({{ st.address }}) - {{ st.available_chargers }} Available
+                        </option>
+                        {% endfor %}
+                    </select>
+                </div>
+
+                <!-- Charger Point Selector -->
+                <div class="form-group">
+                    <label class="form-label" for="chargerSelect">Select Charger Bay</label>
+                    <select id="chargerSelect" class="form-control" required>
+                        {% if selected_station %}
+                            {% for c in selected_station.chargers %}
+                            <option value="{{ c.charger_id }}" 
+                                    data-price="{{ c.price_per_kwh }}" 
+                                    data-type="{{ c.charger_type }}"
+                                    {% if selected_charger and selected_charger.charger_id == c.charger_id %}selected{% endif %}>
+                                {{ c.charger_code }} ({{ c.charger_type }} - {{ c.power_rating }}) - ₹{{ "%.2f"|format(c.price_per_kwh) }}/kWh {% if c.status != 'Available' %}[Currently {{ c.status }}]{% endif %}
+                            </option>
+                            {% endfor %}
+                        {% endif %}
+                    </select>
+                </div>
+
+                <!-- Date & Duration Grid -->
+                <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 20px;">
+                    <div class="form-group">
+                        <label class="form-label" for="reservationDate">Reservation Date</label>
+                        <input type="date" id="reservationDate" class="form-control" min="{{ today }}" value="{{ today }}" required>
+                    </div>
+
+                    <div class="form-group">
+                        <label class="form-label" for="durationSelect">Estimated Charging Duration</label>
+                        <select id="durationSelect" class="form-control">
+                            <option value="30">30 Minutes (Quick Top-Up)</option>
+                            <option value="45">45 Minutes (Fast Charge)</option>
+                            <option value="60" selected>60 Minutes (Standard Full)</option>
+                            <option value="90">90 Minutes (Deep Charge)</option>
+                        </select>
+                    </div>
+                </div>
+
+                <!-- Vehicle Info Grid -->
+                <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 20px;">
+                    <div class="form-group">
+                        <label class="form-label" for="vehicleType">Vehicle Model / Type</label>
+                        <input type="text" id="vehicleType" class="form-control" value="{{ user.vehicle_type or 'Electric Sedan' }}" required>
+                    </div>
+
+                    <div class="form-group">
+                        <label class="form-label" for="vehicleNumber">Registration Number</label>
+                        <input type="text" id="vehicleNumber" class="form-control" value="{{ user.vehicle_number or 'AP-05-EV-1001' }}" required style="text-transform: uppercase;">
+                    </div>
+                </div>
+
+                <!-- Visual Time-Slot Selection System (Section 8) -->
+                <div style="margin-top: 28px; padding-top: 24px; border-top: 1px solid var(--border-color);">
+                    <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 12px;">
+                        <div>
+                            <label class="form-label" style="font-size: 1rem; margin-bottom: 2px;">
+                                <i class="fa-regular fa-clock" style="color: var(--electric-cyan); margin-right: 6px;"></i>
+                                Select Preferred Time Slot
+                            </label>
+                            <p style="font-size: 0.82rem; color: var(--text-secondary);">Click any available time slot below to lock your reservation</p>
+                        </div>
+                        <div style="display: flex; gap: 12px; font-size: 0.78rem;">
+                            <span style="color: #10B981;"><i class="fa-solid fa-circle" style="font-size: 0.6rem;"></i> Available</span>
+                            <span style="color: #EF4444;"><i class="fa-solid fa-circle" style="font-size: 0.6rem;"></i> Booked</span>
+                        </div>
+                    </div>
+
+                    <!-- Slots Grid (dynamic via booking.js) -->
+                    <div class="slots-grid" id="slotsGrid">
+                        <!-- Populated by JS -->
+                    </div>
+                </div>
+            </div>
+
+            <!-- Right Column: Booking Summary Card -->
+            <div class="booking-summary-box">
+                <h3 style="font-size: 1.3rem; border-bottom: 1px solid var(--border-color); padding-bottom: 14px;">
+                    <i class="fa-solid fa-receipt" style="color: var(--electric-cyan); margin-right: 8px;"></i>
+                    Booking Summary
+                </h3>
+
+                <ul class="summary-list">
+                    <li>
+                        <span>Station</span>
+                        <strong id="sumStation">{{ selected_station.station_name if selected_station else 'Select Station' }}</strong>
+                    </li>
+                    <li>
+                        <span>Date</span>
+                        <strong id="sumDate">{{ today }}</strong>
+                    </li>
+                    <li>
+                        <span>Time Slot</span>
+                        <strong id="sumTime" style="color: var(--electric-cyan);">Select a time slot</strong>
+                    </li>
+                    <li>
+                        <span>Charger Bay</span>
+                        <strong id="sumCharger">{{ selected_station.chargers[0].charger_code if (selected_station and selected_station.chargers) else 'Auto Assign' }}</strong>
+                    </li>
+                    <li>
+                        <span>Estimated Duration</span>
+                        <strong id="sumDuration">60 mins</strong>
+                    </li>
+                    <li>
+                        <span>Est. Energy</span>
+                        <strong id="sumEnergy">22.0 kWh</strong>
+                    </li>
+                </ul>
+
+                <div class="summary-total">
+                    <span>Estimated Cost</span>
+                    <span class="total-amount" id="sumTotalCost">₹297</span>
+                </div>
+
+                <div style="font-size: 0.78rem; color: var(--text-muted); margin-bottom: 24px; line-height: 1.4;">
+                    * Final billing is calculated based on exact energy meter telemetry units consumed during your charging session.
+                </div>
+
+                <button type="submit" id="submitBookingBtn" class="btn btn-primary btn-lg" style="width: 100%;" disabled>
+                    <i class="fa-solid fa-check-circle"></i> Confirm Reservation
+                </button>
+            </div>
+        </form>
+    </div>
+</section>
+{% endblock %}
+
+{% block extra_js %}
+<script src="{{ url_for('static', filename='js/booking.js') }}"></script>
+{% endblock %}
+
