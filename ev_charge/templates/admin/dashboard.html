@@ -1,0 +1,168 @@
+{% extends "admin/base_admin.html" %}
+
+{% block title %}Admin Dashboard | EV Charge{% endblock %}
+
+{% block admin_content %}
+<div>
+    <!-- Header -->
+    <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 28px;">
+        <div>
+            <h1 class="admin-header-title">System Control Center</h1>
+            <p style="color: var(--text-secondary); font-size: 0.95rem;">Real-time network telemetry, occupancy metrics, and operational overview</p>
+        </div>
+        <div>
+            <a href="{{ url_for('admin_stations') }}" class="btn btn-primary btn-sm">
+                <i class="fa-solid fa-plus"></i> Add Station
+            </a>
+        </div>
+    </div>
+
+    <!-- 6 Admin Statistic Cards (Section 13) -->
+    <div class="admin-stats-grid">
+        <!-- Total Stations -->
+        <div class="admin-stat-card">
+            <div class="admin-stat-icon" style="background: rgba(0, 210, 255, 0.15); color: var(--electric-cyan);">
+                <i class="fa-solid fa-charging-station"></i>
+            </div>
+            <div class="admin-stat-info">
+                <h3>{{ total_stations }}</h3>
+                <p>Total Stations</p>
+            </div>
+        </div>
+
+        <!-- Total Chargers -->
+        <div class="admin-stat-card">
+            <div class="admin-stat-icon" style="background: rgba(139, 92, 246, 0.15); color: var(--electric-purple);">
+                <i class="fa-solid fa-plug"></i>
+            </div>
+            <div class="admin-stat-info">
+                <h3>{{ total_chargers }}</h3>
+                <p>Total Chargers</p>
+            </div>
+        </div>
+
+        <!-- Available Chargers -->
+        <div class="admin-stat-card">
+            <div class="admin-stat-icon" style="background: rgba(16, 185, 129, 0.15); color: #10B981;">
+                <i class="fa-solid fa-circle-check"></i>
+            </div>
+            <div class="admin-stat-info">
+                <h3 style="color: #10B981;">{{ available_chargers }}</h3>
+                <p>Available Chargers</p>
+            </div>
+        </div>
+
+        <!-- Occupied Chargers -->
+        <div class="admin-stat-card">
+            <div class="admin-stat-icon" style="background: rgba(239, 68, 68, 0.15); color: #EF4444;">
+                <i class="fa-solid fa-plug-circle-bolt"></i>
+            </div>
+            <div class="admin-stat-info">
+                <h3 style="color: #EF4444;">{{ occupied_chargers }}</h3>
+                <p>Occupied Chargers</p>
+            </div>
+        </div>
+
+        <!-- Today's Reservations -->
+        <div class="admin-stat-card">
+            <div class="admin-stat-icon" style="background: rgba(245, 158, 11, 0.15); color: #F59E0B;">
+                <i class="fa-solid fa-calendar-day"></i>
+            </div>
+            <div class="admin-stat-info">
+                <h3>{{ today_reservations }}</h3>
+                <p>Today's Bookings</p>
+            </div>
+        </div>
+
+        <!-- Active Users -->
+        <div class="admin-stat-card">
+            <div class="admin-stat-icon" style="background: rgba(56, 189, 248, 0.15); color: #38BDF8;">
+                <i class="fa-solid fa-users"></i>
+            </div>
+            <div class="admin-stat-info">
+                <h3>{{ active_users }}</h3>
+                <p>Active EV Drivers</p>
+            </div>
+        </div>
+    </div>
+
+    <!-- Recent Reservations Section -->
+    <div style="background: var(--bg-card); border: 1px solid var(--border-color); border-radius: var(--radius-lg); padding: 24px; box-shadow: var(--shadow-md); margin-bottom: 32px;">
+        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 18px;">
+            <h3 style="font-size: 1.25rem;">Recent Slot Reservations</h3>
+            <a href="{{ url_for('admin_reservations') }}" style="font-size: 0.88rem; color: var(--electric-cyan);">View All Reservations &rarr;</a>
+        </div>
+
+        <div class="table-responsive">
+            <table class="custom-table">
+                <thead>
+                    <tr>
+                        <th>Booking ID</th>
+                        <th>User</th>
+                        <th>Station</th>
+                        <th>Bay</th>
+                        <th>Date & Time</th>
+                        <th>Status</th>
+                        <th>Cost</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for res in recent_reservations %}
+                    <tr>
+                        <td><strong style="color: var(--electric-cyan);">{{ res.reservation_id }}</strong></td>
+                        <td>{{ res.user.name }}</td>
+                        <td>{{ res.station.station_name }}</td>
+                        <td>{{ res.charger.charger_code }} ({{ res.charger.power_rating }})</td>
+                        <td>{{ res.reservation_date.strftime('%d %b') }} @ {{ res.start_time }}</td>
+                        <td>
+                            <span class="badge {% if res.status == 'Confirmed' %}badge-success{% elif res.status == 'Completed' %}badge-info{% else %}badge-danger{% endif %}">
+                                {{ res.status }}
+                            </span>
+                        </td>
+                        <td>₹{{ "%.2f"|format(res.estimated_cost) }}</td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+    <!-- Station Live Health Overview -->
+    <div style="background: var(--bg-card); border: 1px solid var(--border-color); border-radius: var(--radius-lg); padding: 24px; box-shadow: var(--shadow-md);">
+        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 18px;">
+            <h3 style="font-size: 1.25rem;">Charging Hubs Live Status</h3>
+            <a href="{{ url_for('admin_stations') }}" style="font-size: 0.88rem; color: var(--electric-cyan);">Manage Stations &rarr;</a>
+        </div>
+
+        <div class="table-responsive">
+            <table class="custom-table">
+                <thead>
+                    <tr>
+                        <th>Station Name</th>
+                        <th>Location</th>
+                        <th>Total Bays</th>
+                        <th>Available</th>
+                        <th>Occupied</th>
+                        <th>Status</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for st in stations %}
+                    <tr>
+                        <td><strong>{{ st.station_name }}</strong></td>
+                        <td>{{ st.address }}</td>
+                        <td>{{ st.total_chargers }}</td>
+                        <td><span style="color: #10B981; font-weight: 700;">{{ st.available_chargers }}</span></td>
+                        <td><span style="color: #EF4444; font-weight: 700;">{{ st.occupied_chargers }}</span></td>
+                        <td>
+                            <span class="badge {{ st.availability_badge.class }}">{{ st.availability_badge.text }}</span>
+                        </td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+{% endblock %}
+

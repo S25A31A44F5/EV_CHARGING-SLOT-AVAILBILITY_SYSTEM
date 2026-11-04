@@ -1,0 +1,517 @@
+{
+  "geo_kakinada": {
+    "timestamp": 1793711660.8444152,
+    "data": {
+      "display_name": "Kakinada, Kakinada Urban Mandal, Kakinada District, Andhra Pradesh, 533001, India",
+      "latitude": 16.9437385,
+      "longitude": 82.2350607,
+      "type": "city"
+    }
+  },
+  "17.68_83.21_40000": {
+    "timestamp": 1793711874.0345592,
+    "stations": [
+      {
+        "station_id": "osm_4845919917",
+        "osm_id": 4845919917,
+        "station_name": "Tata Power Siripuram Hub",
+        "address": "Siripuram Junction, Visakhapatnam, Andhra Pradesh",
+        "city": "Visakhapatnam",
+        "latitude": 17.7131833,
+        "longitude": 83.298845,
+        "operating_hours": "24/7 Access",
+        "status": "Mapped on OpenStreetMap",
+        "total_chargers": 4,
+        "available_chargers": "Unknown",
+        "occupied_chargers": "Unknown",
+        "waiting_time": "Unknown",
+        "estimated_charge_time": "30-45 min",
+        "primary_charging_type": "DC Fast & AC",
+        "connectors": [
+          "Type2",
+          "Type2 Combo"
+        ],
+        "power_rating": "60 kW",
+        "operator": "Tata Power",
+        "min_price": 14.0,
+        "tariff_str": "Standard Grid Tariff",
+        "distance": 10.11,
+        "source": "OpenStreetMap (Overpass API)",
+        "is_network_station": false,
+        "google_maps_url": "https://www.google.com/maps/dir/?api=1&destination=17.7131833,83.298845",
+        "availability_badge": {
+          "text": "Live Status: Unknown",
+          "class": "badge-osm",
+          "color": "#3B82F6",
+          "desc": "Verified real-world location from OpenStreetMap. Live socket telemetry not connected."
+        }
+      },
+      {
+        "station_id": "osm_6798121626",
+        "osm_id": 6798121626,
+        "station_name": "C.S.R. Hospital EV Station",
+        "address": "2nd Lane, Official Colony, Near Collector Office Junction",
+        "city": "Visakhapatnam",
+        "latitude": 17.706036,
+        "longitude": 83.3068947,
+        "operating_hours": "24/7",
+        "status": "Mapped on OpenStreetMap",
+        "total_chargers": 5,
+        "available_chargers": "Unknown",
+        "occupied_chargers": "Unknown",
+        "waiting_time": "Unknown",
+        "estimated_charge_time": "30-45 min",
+        "primary_charging_type": "DC Fast & AC",
+        "connectors": [
+          "CCS-2 (DC Fast)",
+          "Type 2 (AC)"
+        ],
+        "power_rating": "50 kW (DC)",
+        "operator": "Tata Power",
+        "min_price": 14.5,
+        "tariff_str": "INR 50/kWh",
+        "distance": 10.67,
+        "source": "OpenStreetMap (Overpass API)",
+        "is_network_station": false,
+        "google_maps_url": "https://www.google.com/maps/dir/?api=1&destination=17.706036,83.3068947",
+        "availability_badge": {
+          "text": "Live Status: Unknown",
+          "class": "badge-osm",
+          "color": "#3B82F6",
+          "desc": "Verified real-world location from OpenStreetMap. Live socket telemetry not connected."
+        }
+      },
+      {
+        "station_id": "osm_2636339970",
+        "osm_id": 2636339970,
+        "station_name": "Tata Power Fast Charging Hub",
+        "address": "Visakhapatnam, Andhra Pradesh",
+        "city": "Visakhapatnam",
+        "latitude": 17.7085964,
+        "longitude": 83.3107898,
+        "operating_hours": "24/7 Access",
+        "status": "Mapped on OpenStreetMap",
+        "total_chargers": 2,
+        "available_chargers": "Unknown",
+        "occupied_chargers": "Unknown",
+        "waiting_time": "Unknown",
+        "estimated_charge_time": "30-45 min",
+        "primary_charging_type": "DC Fast Charging",
+        "connectors": [
+          "Type2 Combo"
+        ],
+        "power_rating": "60 kW",
+        "operator": "Tata Power",
+        "min_price": 14.0,
+        "tariff_str": "Standard Grid Tariff",
+        "distance": 11.14,
+        "source": "OpenStreetMap (Overpass API)",
+        "is_network_station": false,
+        "google_maps_url": "https://www.google.com/maps/dir/?api=1&destination=17.7085964,83.3107898",
+        "availability_badge": {
+          "text": "Live Status: Unknown",
+          "class": "badge-osm",
+          "color": "#3B82F6",
+          "desc": "Verified real-world location from OpenStreetMap. Live socket telemetry not connected."
+        }
+      },
+      {
+        "station_id": "osm_8189928160",
+        "osm_id": 8189928160,
+        "station_name": "Tata Power Waltair Uplands",
+        "address": "Waltair Uplands, Visakhapatnam",
+        "city": "Andhra Pradesh",
+        "latitude": 17.7163716,
+        "longitude": 83.326209,
+        "operating_hours": "24/7 Access",
+        "status": "Mapped on OpenStreetMap",
+        "total_chargers": 2,
+        "available_chargers": "Unknown",
+        "occupied_chargers": "Unknown",
+        "waiting_time": "Unknown",
+        "estimated_charge_time": "30-45 min",
+        "primary_charging_type": "DC Fast Charging",
+        "connectors": [
+          "Type2 Combo"
+        ],
+        "power_rating": "60 kW",
+        "operator": "Tata Power",
+        "min_price": 14.0,
+        "tariff_str": "Standard Grid Tariff",
+        "distance": 12.96,
+        "source": "OpenStreetMap (Overpass API)",
+        "is_network_station": false,
+        "google_maps_url": "https://www.google.com/maps/dir/?api=1&destination=17.7163716,83.326209",
+        "availability_badge": {
+          "text": "Live Status: Unknown",
+          "class": "badge-osm",
+          "color": "#3B82F6",
+          "desc": "Verified real-world location from OpenStreetMap. Live socket telemetry not connected."
+        }
+      },
+      {
+        "station_id": "osm_5295274409",
+        "osm_id": 5295274409,
+        "station_name": "Voltran Power EV Hub",
+        "address": "Anakapalle Highway Corridor, NH16",
+        "city": "Andhra Pradesh",
+        "latitude": 17.8384022,
+        "longitude": 82.9994147,
+        "operating_hours": "24/7 Access",
+        "status": "Mapped on OpenStreetMap",
+        "total_chargers": 2,
+        "available_chargers": "Unknown",
+        "occupied_chargers": "Unknown",
+        "waiting_time": "Unknown",
+        "estimated_charge_time": "30-45 min",
+        "primary_charging_type": "Type2",
+        "connectors": [
+          "Type2"
+        ],
+        "power_rating": "22 kW",
+        "operator": "Voltran Power",
+        "min_price": 14.0,
+        "tariff_str": "Standard Grid Tariff",
+        "distance": 28.42,
+        "source": "OpenStreetMap (Overpass API)",
+        "is_network_station": false,
+        "google_maps_url": "https://www.google.com/maps/dir/?api=1&destination=17.8384022,82.9994147",
+        "availability_badge": {
+          "text": "Live Status: Unknown",
+          "class": "badge-osm",
+          "color": "#3B82F6",
+          "desc": "Verified real-world location from OpenStreetMap. Live socket telemetry not connected."
+        }
+      },
+      {
+        "station_id": "osm_5295276530",
+        "osm_id": 5295276530,
+        "station_name": "Ather Grid Fast Charger",
+        "address": "NH16 Highway Food Court, Anakapalle",
+        "city": "Andhra Pradesh",
+        "latitude": 17.840483,
+        "longitude": 82.9998377,
+        "operating_hours": "24/7 Access",
+        "status": "Mapped on OpenStreetMap",
+        "total_chargers": 2,
+        "available_chargers": "Unknown",
+        "occupied_chargers": "Unknown",
+        "waiting_time": "Unknown",
+        "estimated_charge_time": "30-45 min",
+        "primary_charging_type": "Ather",
+        "connectors": [
+          "Ather"
+        ],
+        "power_rating": "22 kW (AC)",
+        "operator": "Ather Energy",
+        "min_price": 14.0,
+        "tariff_str": "Standard Grid Tariff",
+        "distance": 28.53,
+        "source": "OpenStreetMap (Overpass API)",
+        "is_network_station": false,
+        "google_maps_url": "https://www.google.com/maps/dir/?api=1&destination=17.840483,82.9998377",
+        "availability_badge": {
+          "text": "Live Status: Unknown",
+          "class": "badge-osm",
+          "color": "#3B82F6",
+          "desc": "Verified real-world location from OpenStreetMap. Live socket telemetry not connected."
+        }
+      },
+      {
+        "station_id": "osm_11021950303",
+        "osm_id": 11021950303,
+        "station_name": "Tata Power Highway Express Hub",
+        "address": "Sankaram Junction, NH16 Highway, Andhra Pradesh",
+        "city": "Andhra Pradesh",
+        "latitude": 17.8277665,
+        "longitude": 82.9597409,
+        "operating_hours": "24/7 Access",
+        "status": "Mapped on OpenStreetMap",
+        "total_chargers": 2,
+        "available_chargers": "Unknown",
+        "occupied_chargers": "Unknown",
+        "waiting_time": "Unknown",
+        "estimated_charge_time": "30-45 min",
+        "primary_charging_type": "DC Fast Charging",
+        "connectors": [
+          "Type2 Combo"
+        ],
+        "power_rating": "60 kW",
+        "operator": "Tata Power",
+        "min_price": 14.0,
+        "tariff_str": "Standard Grid Tariff",
+        "distance": 31.18,
+        "source": "OpenStreetMap (Overpass API)",
+        "is_network_station": false,
+        "google_maps_url": "https://www.google.com/maps/dir/?api=1&destination=17.8277665,82.9597409",
+        "availability_badge": {
+          "text": "Live Status: Unknown",
+          "class": "badge-osm",
+          "color": "#3B82F6",
+          "desc": "Verified real-world location from OpenStreetMap. Live socket telemetry not connected."
+        }
+      }
+    ]
+  },
+  "16.99_82.25_35000": {
+    "timestamp": 1793808179.1036866,
+    "stations": []
+  },
+  "17.68_83.21_50000": {
+    "timestamp": 1793711970.1140006,
+    "stations": [
+      {
+        "station_id": "osm_4845919917",
+        "osm_id": 4845919917,
+        "station_name": "Tata Power Siripuram Hub",
+        "address": "Siripuram Junction, Visakhapatnam, Andhra Pradesh",
+        "city": "Visakhapatnam",
+        "latitude": 17.7131833,
+        "longitude": 83.298845,
+        "operating_hours": "24/7 Access",
+        "status": "Mapped on OpenStreetMap",
+        "total_chargers": 4,
+        "available_chargers": "Unknown",
+        "occupied_chargers": "Unknown",
+        "waiting_time": "Unknown",
+        "estimated_charge_time": "30-45 min",
+        "primary_charging_type": "DC Fast & AC",
+        "connectors": [
+          "Type2",
+          "Type2 Combo"
+        ],
+        "power_rating": "60 kW",
+        "operator": "Tata Power",
+        "min_price": 14.0,
+        "tariff_str": "Standard Grid Tariff",
+        "distance": 10.11,
+        "source": "OpenStreetMap (Overpass API)",
+        "is_network_station": false,
+        "google_maps_url": "https://www.google.com/maps/dir/?api=1&destination=17.7131833,83.298845",
+        "availability_badge": {
+          "text": "Live Status: Unknown",
+          "class": "badge-osm",
+          "color": "#3B82F6",
+          "desc": "Verified real-world location from OpenStreetMap. Live socket telemetry not connected."
+        }
+      },
+      {
+        "station_id": "osm_6798121626",
+        "osm_id": 6798121626,
+        "station_name": "C.S.R. Hospital EV Station",
+        "address": "2nd Lane, Official Colony, Near Collector Office Junction",
+        "city": "Visakhapatnam",
+        "latitude": 17.706036,
+        "longitude": 83.3068947,
+        "operating_hours": "24/7",
+        "status": "Mapped on OpenStreetMap",
+        "total_chargers": 5,
+        "available_chargers": "Unknown",
+        "occupied_chargers": "Unknown",
+        "waiting_time": "Unknown",
+        "estimated_charge_time": "30-45 min",
+        "primary_charging_type": "DC Fast & AC",
+        "connectors": [
+          "CCS-2 (DC Fast)",
+          "Type 2 (AC)"
+        ],
+        "power_rating": "50 kW (DC)",
+        "operator": "Tata Power",
+        "min_price": 14.5,
+        "tariff_str": "INR 50/kWh",
+        "distance": 10.67,
+        "source": "OpenStreetMap (Overpass API)",
+        "is_network_station": false,
+        "google_maps_url": "https://www.google.com/maps/dir/?api=1&destination=17.706036,83.3068947",
+        "availability_badge": {
+          "text": "Live Status: Unknown",
+          "class": "badge-osm",
+          "color": "#3B82F6",
+          "desc": "Verified real-world location from OpenStreetMap. Live socket telemetry not connected."
+        }
+      },
+      {
+        "station_id": "osm_2636339970",
+        "osm_id": 2636339970,
+        "station_name": "Tata Power Fast Charging Hub",
+        "address": "Visakhapatnam, Andhra Pradesh",
+        "city": "Visakhapatnam",
+        "latitude": 17.7085964,
+        "longitude": 83.3107898,
+        "operating_hours": "24/7 Access",
+        "status": "Mapped on OpenStreetMap",
+        "total_chargers": 2,
+        "available_chargers": "Unknown",
+        "occupied_chargers": "Unknown",
+        "waiting_time": "Unknown",
+        "estimated_charge_time": "30-45 min",
+        "primary_charging_type": "DC Fast Charging",
+        "connectors": [
+          "Type2 Combo"
+        ],
+        "power_rating": "60 kW",
+        "operator": "Tata Power",
+        "min_price": 14.0,
+        "tariff_str": "Standard Grid Tariff",
+        "distance": 11.14,
+        "source": "OpenStreetMap (Overpass API)",
+        "is_network_station": false,
+        "google_maps_url": "https://www.google.com/maps/dir/?api=1&destination=17.7085964,83.3107898",
+        "availability_badge": {
+          "text": "Live Status: Unknown",
+          "class": "badge-osm",
+          "color": "#3B82F6",
+          "desc": "Verified real-world location from OpenStreetMap. Live socket telemetry not connected."
+        }
+      },
+      {
+        "station_id": "osm_8189928160",
+        "osm_id": 8189928160,
+        "station_name": "Tata Power Waltair Uplands",
+        "address": "Waltair Uplands, Visakhapatnam",
+        "city": "Andhra Pradesh",
+        "latitude": 17.7163716,
+        "longitude": 83.326209,
+        "operating_hours": "24/7 Access",
+        "status": "Mapped on OpenStreetMap",
+        "total_chargers": 2,
+        "available_chargers": "Unknown",
+        "occupied_chargers": "Unknown",
+        "waiting_time": "Unknown",
+        "estimated_charge_time": "30-45 min",
+        "primary_charging_type": "DC Fast Charging",
+        "connectors": [
+          "Type2 Combo"
+        ],
+        "power_rating": "60 kW",
+        "operator": "Tata Power",
+        "min_price": 14.0,
+        "tariff_str": "Standard Grid Tariff",
+        "distance": 12.96,
+        "source": "OpenStreetMap (Overpass API)",
+        "is_network_station": false,
+        "google_maps_url": "https://www.google.com/maps/dir/?api=1&destination=17.7163716,83.326209",
+        "availability_badge": {
+          "text": "Live Status: Unknown",
+          "class": "badge-osm",
+          "color": "#3B82F6",
+          "desc": "Verified real-world location from OpenStreetMap. Live socket telemetry not connected."
+        }
+      },
+      {
+        "station_id": "osm_5295274409",
+        "osm_id": 5295274409,
+        "station_name": "Voltran Power EV Hub",
+        "address": "Anakapalle Highway Corridor, NH16",
+        "city": "Andhra Pradesh",
+        "latitude": 17.8384022,
+        "longitude": 82.9994147,
+        "operating_hours": "24/7 Access",
+        "status": "Mapped on OpenStreetMap",
+        "total_chargers": 2,
+        "available_chargers": "Unknown",
+        "occupied_chargers": "Unknown",
+        "waiting_time": "Unknown",
+        "estimated_charge_time": "30-45 min",
+        "primary_charging_type": "Type2",
+        "connectors": [
+          "Type2"
+        ],
+        "power_rating": "22 kW",
+        "operator": "Voltran Power",
+        "min_price": 14.0,
+        "tariff_str": "Standard Grid Tariff",
+        "distance": 28.42,
+        "source": "OpenStreetMap (Overpass API)",
+        "is_network_station": false,
+        "google_maps_url": "https://www.google.com/maps/dir/?api=1&destination=17.8384022,82.9994147",
+        "availability_badge": {
+          "text": "Live Status: Unknown",
+          "class": "badge-osm",
+          "color": "#3B82F6",
+          "desc": "Verified real-world location from OpenStreetMap. Live socket telemetry not connected."
+        }
+      },
+      {
+        "station_id": "osm_5295276530",
+        "osm_id": 5295276530,
+        "station_name": "Ather Grid Fast Charger",
+        "address": "NH16 Highway Food Court, Anakapalle",
+        "city": "Andhra Pradesh",
+        "latitude": 17.840483,
+        "longitude": 82.9998377,
+        "operating_hours": "24/7 Access",
+        "status": "Mapped on OpenStreetMap",
+        "total_chargers": 2,
+        "available_chargers": "Unknown",
+        "occupied_chargers": "Unknown",
+        "waiting_time": "Unknown",
+        "estimated_charge_time": "30-45 min",
+        "primary_charging_type": "Ather",
+        "connectors": [
+          "Ather"
+        ],
+        "power_rating": "22 kW (AC)",
+        "operator": "Ather Energy",
+        "min_price": 14.0,
+        "tariff_str": "Standard Grid Tariff",
+        "distance": 28.53,
+        "source": "OpenStreetMap (Overpass API)",
+        "is_network_station": false,
+        "google_maps_url": "https://www.google.com/maps/dir/?api=1&destination=17.840483,82.9998377",
+        "availability_badge": {
+          "text": "Live Status: Unknown",
+          "class": "badge-osm",
+          "color": "#3B82F6",
+          "desc": "Verified real-world location from OpenStreetMap. Live socket telemetry not connected."
+        }
+      },
+      {
+        "station_id": "osm_11021950303",
+        "osm_id": 11021950303,
+        "station_name": "Tata Power Highway Express Hub",
+        "address": "Sankaram Junction, NH16 Highway, Andhra Pradesh",
+        "city": "Andhra Pradesh",
+        "latitude": 17.8277665,
+        "longitude": 82.9597409,
+        "operating_hours": "24/7 Access",
+        "status": "Mapped on OpenStreetMap",
+        "total_chargers": 2,
+        "available_chargers": "Unknown",
+        "occupied_chargers": "Unknown",
+        "waiting_time": "Unknown",
+        "estimated_charge_time": "30-45 min",
+        "primary_charging_type": "DC Fast Charging",
+        "connectors": [
+          "Type2 Combo"
+        ],
+        "power_rating": "60 kW",
+        "operator": "Tata Power",
+        "min_price": 14.0,
+        "tariff_str": "Standard Grid Tariff",
+        "distance": 31.18,
+        "source": "OpenStreetMap (Overpass API)",
+        "is_network_station": false,
+        "google_maps_url": "https://www.google.com/maps/dir/?api=1&destination=17.8277665,82.9597409",
+        "availability_badge": {
+          "text": "Live Status: Unknown",
+          "class": "badge-osm",
+          "color": "#3B82F6",
+          "desc": "Verified real-world location from OpenStreetMap. Live socket telemetry not connected."
+        }
+      }
+    ]
+  },
+  "16.95_82.27_35000": {
+    "timestamp": 1793712201.8110063,
+    "stations": []
+  },
+  "16.99_82.26_35000": {
+    "timestamp": 1793802723.8025732,
+    "stations": []
+  },
+  "16.99_82.25_75000": {
+    "timestamp": 1793712386.3523643,
+    "stations": []
+  }
+}

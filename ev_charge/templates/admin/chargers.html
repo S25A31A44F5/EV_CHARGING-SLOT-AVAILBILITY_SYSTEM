@@ -1,0 +1,68 @@
+{% extends "admin/base_admin.html" %}
+
+{% block title %}Charger Hardware Management | Admin Portal{% endblock %}
+
+{% block admin_content %}
+<div>
+    <!-- Header -->
+    <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 28px;">
+        <div>
+            <h1 class="admin-header-title">Charger Hardware Telemetry</h1>
+            <p style="color: var(--text-secondary); font-size: 0.95rem;">Monitor individual socket states and override charger hardware status</p>
+        </div>
+        <button id="livePulseBtn" class="btn btn-primary btn-sm">
+            <i class="fa-solid fa-bolt"></i> Simulate IoT Telemetry
+        </button>
+    </div>
+
+    <!-- Chargers Table -->
+    <div class="table-responsive">
+        <table class="custom-table">
+            <thead>
+                <tr>
+                    <th>Charger Code</th>
+                    <th>Station</th>
+                    <th>Type & Connector</th>
+                    <th>Power Rating</th>
+                    <th>Status</th>
+                    <th>Tariff</th>
+                    <th>Connected Vehicle</th>
+                    <th>Update Status</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for c in chargers %}
+                <tr>
+                    <td><strong style="color: var(--electric-cyan);">{{ c.charger_code }}</strong></td>
+                    <td>{{ c.station.station_name }}</td>
+                    <td>{{ c.charger_type }}</td>
+                    <td><span class="badge badge-info">{{ c.power_rating }}</span></td>
+                    <td>
+                        <span class="badge {% if c.status == 'Available' %}badge-success{% elif c.status == 'Occupied' %}badge-danger{% else %}badge-warning{% endif %}">
+                            {{ c.status }}
+                        </span>
+                    </td>
+                    <td>₹{{ "%.2f"|format(c.price_per_kwh) }}/kWh</td>
+                    <td style="color: var(--text-secondary); font-size: 0.85rem;">
+                        {{ c.current_vehicle or '— None —' }}
+                    </td>
+                    <td>
+                        <form method="POST" action="{{ url_for('api_admin_update_charger_status', charger_id=c.charger_id) }}" style="display: flex; gap: 6px;">
+                            <select name="status" class="filter-select" style="padding: 4px 8px; font-size: 0.82rem;">
+                                <option value="Available" {% if c.status == 'Available' %}selected{% endif %}>Available</option>
+                                <option value="Occupied" {% if c.status == 'Occupied' %}selected{% endif %}>Occupied</option>
+                                <option value="Maintenance" {% if c.status == 'Maintenance' %}selected{% endif %}>Maintenance</option>
+                            </select>
+                            <button type="submit" class="btn btn-secondary btn-sm" style="padding: 4px 8px;" title="Save Status">
+                                <i class="fa-solid fa-check"></i>
+                            </button>
+                        </form>
+                    </td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+</div>
+{% endblock %}
+

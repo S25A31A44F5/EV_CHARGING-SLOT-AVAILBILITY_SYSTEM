@@ -1,0 +1,70 @@
+{% extends "admin/base_admin.html" %}
+
+{% block title %}User Directory | Admin Portal{% endblock %}
+
+{% block admin_content %}
+<div>
+    <!-- Header -->
+    <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 28px;">
+        <div>
+            <h1 class="admin-header-title">Registered EV Driver Directory</h1>
+            <p style="color: var(--text-secondary); font-size: 0.95rem;">Review registered EV driver accounts, vehicles, and access status</p>
+        </div>
+    </div>
+
+    <!-- Users Table (Section 16) -->
+    <div class="table-responsive">
+        <table class="custom-table">
+            <thead>
+                <tr>
+                    <th>User ID</th>
+                    <th>Full Name</th>
+                    <th>Email Address</th>
+                    <th>Phone</th>
+                    <th>Registered Vehicle</th>
+                    <th>Total Bookings</th>
+                    <th>Account Status</th>
+                    <th>Action</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for u in users %}
+                <tr>
+                    <td><strong>#{{ u.user_id }}</strong></td>
+                    <td>
+                        <div style="font-weight: 600; color: #FFFFFF;">{{ u.name }}</div>
+                        <div style="font-size: 0.75rem; color: var(--text-muted);">Joined {{ u.created_at.strftime('%b %Y') if u.created_at else '' }}</div>
+                    </td>
+                    <td>{{ u.email }}</td>
+                    <td>{{ u.phone }}</td>
+                    <td>
+                        <div>{{ u.vehicle_type }}</div>
+                        <div style="font-size: 0.75rem; color: var(--text-muted);">{{ u.vehicle_number }}</div>
+                    </td>
+                    <td><strong>{{ u.reservations|length }}</strong> reservations</td>
+                    <td>
+                        <span class="badge {% if u.status == 'active' %}badge-success{% else %}badge-danger{% endif %}">
+                            {{ u.status }}
+                        </span>
+                    </td>
+                    <td>
+                        <form method="POST" action="{{ url_for('api_admin_toggle_user_status', user_id=u.user_id) }}">
+                            {% if u.status == 'active' %}
+                            <button type="submit" class="btn btn-danger btn-sm" title="Disable user access">
+                                <i class="fa-solid fa-user-slash"></i> Disable
+                            </button>
+                            {% else %}
+                            <button type="submit" class="btn btn-secondary btn-sm" title="Reactivate user access">
+                                <i class="fa-solid fa-user-check"></i> Activate
+                            </button>
+                            {% endif %}
+                        </form>
+                    </td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+</div>
+{% endblock %}
+

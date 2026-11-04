@@ -1,0 +1,330 @@
+{% extends "base.html" %}
+
+{% block title %}EV Charging Slot Availability System | Charge Smarter. Drive Further.{% endblock %}
+
+{% block content %}
+<!-- ===================================================================
+     HERO SECTION
+     =================================================================== -->
+<section class="hero-section">
+    <div class="hero-glow-blob"></div>
+    <div class="container">
+        <div class="hero-grid">
+            <!-- Left Hero Content -->
+            <div>
+                <div class="hero-badge">
+                    <i class="fa-solid fa-bolt-lightning"></i>
+                    <span>Next-Gen Smart EV Charging Platform</span>
+                </div>
+
+                <h1 class="hero-title">
+                    Charge Smarter.<br>
+                    <span class="gradient-text">Drive Further.</span>
+                </h1>
+
+                <p class="hero-subtitle">
+                    Find available EV charging stations, reserve your charging slot, and reduce waiting time with intelligent charging recommendations.
+                </p>
+
+                <div class="hero-cta">
+                    <a href="{{ url_for('find_stations') }}" class="btn btn-primary btn-lg">
+                        <i class="fa-solid fa-magnifying-glass-location"></i> Find Charging Stations
+                    </a>
+                    <a href="{{ url_for('reserve_slot') }}" class="btn btn-secondary btn-lg">
+                        <i class="fa-solid fa-calendar-check"></i> Reserve a Slot
+                    </a>
+                </div>
+            </div>
+
+            <!-- Right Hero EV Visual & Telemetry Card -->
+            <div>
+                <div class="hero-visual-card">
+                    <div class="charging-hub-header">
+                        <div>
+                            <span style="font-size: 0.8rem; text-transform: uppercase; letter-spacing: 0.08em; color: var(--electric-cyan); font-weight: 700;">Live Station Monitor</span>
+                            <h3 style="font-size: 1.25rem; margin-top: 2px;">GreenCharge Hub 01</h3>
+                        </div>
+                        <span class="badge badge-success">
+                            <span class="status-dot dot-available"></span> Active
+                        </span>
+                    </div>
+
+                    <!-- Live Battery Animation & Status -->
+                    <div class="charging-telemetry">
+                        <div class="telemetry-row">
+                            <span style="color: var(--text-secondary); font-size: 0.85rem;"><i class="fa-solid fa-car-side" style="margin-right: 6px;"></i> Connected Vehicle</span>
+                            <strong style="color: #FFFFFF; font-size: 0.9rem;">Tata Nexon EV Max</strong>
+                        </div>
+                        <div class="telemetry-row">
+                            <span style="color: var(--text-secondary); font-size: 0.85rem;"><i class="fa-solid fa-bolt" style="margin-right: 6px; color: var(--electric-cyan);"></i> Power Delivery</span>
+                            <strong style="color: var(--electric-cyan); font-size: 0.9rem;">58.4 kW (DC Fast)</strong>
+                        </div>
+                        <div class="telemetry-row">
+                            <span style="color: var(--text-secondary); font-size: 0.85rem;"><i class="fa-solid fa-battery-half" style="margin-right: 6px; color: #10B981;"></i> Current Charge Level</span>
+                            <strong style="color: #10B981; font-size: 0.9rem;">78% (31 min remaining)</strong>
+                        </div>
+
+                        <!-- Animated Battery Bar -->
+                        <div class="battery-display">
+                            <div class="battery-shell">
+                                <div class="battery-fill"></div>
+                            </div>
+                            <span style="font-weight: 700; color: #FFFFFF; font-size: 0.85rem;">78%</span>
+                        </div>
+                    </div>
+
+                    <!-- Mini Charger Status Slots -->
+                    <div>
+                        <div style="display: flex; justify-content: space-between; font-size: 0.82rem; color: var(--text-secondary); margin-bottom: 8px;">
+                            <span>Charger Grid Status</span>
+                            <span>5 Available / 2 Busy</span>
+                        </div>
+                        <div class="mini-chargers-grid">
+                            <div class="mini-charger-slot active">
+                                <div style="color: #10B981; font-weight: 700;">CH-01</div>
+                                <div style="font-size: 0.65rem; color: #10B981;">Available</div>
+                            </div>
+                            <div class="mini-charger-slot active">
+                                <div style="color: #10B981; font-weight: 700;">CH-02</div>
+                                <div style="font-size: 0.65rem; color: #10B981;">Available</div>
+                            </div>
+                            <div class="mini-charger-slot occupied">
+                                <div style="color: #EF4444; font-weight: 700;">CH-03</div>
+                                <div style="font-size: 0.65rem; color: #EF4444;">Occupied</div>
+                            </div>
+                            <div class="mini-charger-slot active">
+                                <div style="color: #10B981; font-weight: 700;">CH-04</div>
+                                <div style="font-size: 0.65rem; color: #10B981;">Available</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- ===================================================================
+     STATISTICS COUNTER SECTION
+     =================================================================== -->
+<section class="stats-section">
+    <div class="container">
+        <div class="stats-grid">
+            <div class="stat-card">
+                <div class="stat-icon"><i class="fa-solid fa-charging-station"></i></div>
+                <div class="stat-value counter-anim" data-target="50" data-suffix="+">0</div>
+                <div class="stat-label">Charging Stations</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-icon"><i class="fa-solid fa-plug-circle-bolt"></i></div>
+                <div class="stat-value counter-anim" data-target="200" data-suffix="+">0</div>
+                <div class="stat-label">Charging Points</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-icon"><i class="fa-solid fa-calendar-check"></i></div>
+                <div class="stat-value counter-anim" data-target="1500" data-suffix="+">0</div>
+                <div class="stat-label">Reservations Made</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-icon"><i class="fa-solid fa-circle-check"></i></div>
+                <div class="stat-value counter-anim" data-target="95.2" data-suffix="%">0%</div>
+                <div class="stat-label">Network Availability</div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- ===================================================================
+     REAL-TIME AVAILABILITY COMPONENT (SECTION 20)
+     =================================================================== -->
+<section class="section" style="padding-bottom: 20px;">
+    <div class="container">
+        <div style="background: var(--bg-card); border: 1px solid var(--border-accent); border-radius: var(--radius-lg); padding: 28px 32px; box-shadow: var(--shadow-md);">
+            <div style="display: flex; flex-wrap: wrap; justify-content: space-between; align-items: center; gap: 20px; margin-bottom: 20px;">
+                <div>
+                    <span class="section-tag" style="margin-bottom: 4px;">Live Telemetry</span>
+                    <h3 style="font-size: 1.4rem;">Network Charger Availability</h3>
+                    <p style="color: var(--text-secondary); font-size: 0.9rem;">Real-time status synced across connected charging stations</p>
+                </div>
+                <div style="display: flex; gap: 16px; flex-wrap: wrap;">
+                    <div style="display: flex; align-items: center; gap: 8px; font-size: 0.9rem;">
+                        <span class="status-dot dot-available"></span>
+                        <span>Available: <strong style="color: #10B981;">24</strong></span>
+                    </div>
+                    <div style="display: flex; align-items: center; gap: 8px; font-size: 0.9rem;">
+                        <span class="status-dot dot-occupied"></span>
+                        <span>Occupied: <strong style="color: #EF4444;">10</strong></span>
+                    </div>
+                    <div style="display: flex; align-items: center; gap: 8px; font-size: 0.9rem;">
+                        <span class="status-dot dot-warning"></span>
+                        <span>Maintenance: <strong style="color: #F59E0B;">2</strong></span>
+                    </div>
+                    <div style="display: flex; align-items: center; gap: 8px; font-size: 0.9rem;">
+                        <span style="color: var(--text-secondary);">Total Chargers: <strong>36</strong></span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Visual Multi-segment Occupancy Bar -->
+            <div style="height: 12px; background: rgba(255,255,255,0.06); border-radius: 8px; overflow: hidden; display: flex; width: 100%;">
+                <div style="width: 66.7%; background: #10B981;" title="Available: 66.7%"></div>
+                <div style="width: 27.8%; background: #EF4444;" title="Occupied: 27.8%"></div>
+                <div style="width: 5.5%; background: #F59E0B;" title="Maintenance: 5.5%"></div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- ===================================================================
+     HOW IT WORKS SECTION (SECTION 5)
+     =================================================================== -->
+<section class="section">
+    <div class="container">
+        <div class="section-header">
+            <span class="section-tag">Simple & Seamless</span>
+            <h2 class="section-title">How It Works</h2>
+            <p class="section-description">
+                Experience hassle-free charging with our streamlined four-step reservation process.
+            </p>
+        </div>
+
+        <div class="steps-grid">
+            <!-- Step 1 -->
+            <div class="step-card">
+                <span class="step-number">01</span>
+                <div class="step-icon-box">
+                    <i class="fa-solid fa-magnifying-glass-location"></i>
+                </div>
+                <h3 class="step-title">Step 1 — Find</h3>
+                <p class="step-desc">Search for nearby EV charging stations with interactive GPS and live filter parameters.</p>
+            </div>
+
+            <!-- Step 2 -->
+            <div class="step-card">
+                <span class="step-number">02</span>
+                <div class="step-icon-box">
+                    <i class="fa-solid fa-chart-pie"></i>
+                </div>
+                <h3 class="step-title">Step 2 — Check</h3>
+                <p class="step-desc">View real-time charger and slot availability with live telemetry status and tariffs.</p>
+            </div>
+
+            <!-- Step 3 -->
+            <div class="step-card">
+                <span class="step-number">03</span>
+                <div class="step-icon-box">
+                    <i class="fa-solid fa-calendar-check"></i>
+                </div>
+                <h3 class="step-title">Step 3 — Reserve</h3>
+                <p class="step-desc">Select a preferred charging time slot and instantly confirm your booking reservation.</p>
+            </div>
+
+            <!-- Step 4 -->
+            <div class="step-card">
+                <span class="step-number">04</span>
+                <div class="step-icon-box">
+                    <i class="fa-solid fa-bolt"></i>
+                </div>
+                <h3 class="step-title">Step 4 — Charge</h3>
+                <p class="step-desc">Arrive at the station and charge your EV seamlessly without unnecessary waiting lines.</p>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- ===================================================================
+     SMART STATION RECOMMENDATIONS SECTION (SECTION 19)
+     =================================================================== -->
+<section class="section" style="background: var(--bg-secondary);">
+    <div class="container">
+        <div class="section-header">
+            <span class="section-tag">AI-Powered Optimization</span>
+            <h2 class="section-title">Recommended Charging Stations</h2>
+            <p class="section-description">
+                Our multi-factor intelligent algorithm evaluates distance, availability, queue wait time, power rating, and predicted demand to recommend the best spots.
+            </p>
+        </div>
+
+        <div class="cards-grid">
+            {% for item in recommended %}
+            {% set st = item.station %}
+            <div class="station-card">
+                <div class="station-card-header">
+                    <div>
+                        <span class="badge badge-info" style="margin-bottom: 8px; font-size: 0.72rem;">
+                            <i class="fa-solid fa-wand-magic-sparkles"></i> Recommended for You
+                        </span>
+                        <h3 class="station-name">{{ st.station_name }}</h3>
+                        <p class="station-location">
+                            <i class="fa-solid fa-location-dot" style="color: var(--electric-cyan);"></i>
+                            {{ st.address }}
+                        </p>
+                    </div>
+                    <span class="badge {{ st.availability_badge.class }}">
+                        <span class="status-dot {{ 'dot-available' if st.availability_badge.text == 'Available' else ('dot-warning' if st.availability_badge.text == 'Limited' else 'dot-occupied') }}"></span>
+                        {{ st.availability_badge.text }}
+                    </span>
+                </div>
+
+                <!-- Recommendation Reason Tag -->
+                <div style="background: rgba(0, 210, 255, 0.08); border: 1px solid rgba(0, 210, 255, 0.25); border-radius: var(--radius-sm); padding: 10px 14px; margin: 12px 0; font-size: 0.85rem; color: var(--electric-cyan);">
+                    <i class="fa-solid fa-thumbs-up" style="margin-right: 6px;"></i>
+                    <strong>Reason:</strong> “{{ item.reason }}”
+                </div>
+
+                <div class="station-metrics">
+                    <div class="metric-item">
+                        <i class="fa-solid fa-route" style="color: #38BDF8;"></i>
+                        <span>📏 <strong>{{ item.distance_km }} km</strong> away</span>
+                    </div>
+                    <div class="metric-item">
+                        <i class="fa-solid fa-hourglass-half" style="color: #F59E0B;"></i>
+                        <span>⌛ Wait: <strong>{{ st.waiting_time }} min</strong></span>
+                    </div>
+                    <div class="metric-item">
+                        <i class="fa-solid fa-circle-check" style="color: #10B981;"></i>
+                        <span>🟢 <strong>{{ st.available_chargers }}</strong> Available</span>
+                    </div>
+                    <div class="metric-item">
+                        <i class="fa-solid fa-bolt" style="color: var(--electric-cyan);"></i>
+                        <span>⚡ <strong>{{ st.primary_charging_type }}</strong></span>
+                    </div>
+                </div>
+
+                <div class="station-card-actions">
+                    <a href="{{ url_for('station_detail', station_id=st.station_id) }}" class="btn btn-secondary btn-sm">
+                        View Details
+                    </a>
+                    <a href="{{ url_for('reserve_slot', station_id=st.station_id) }}" class="btn btn-primary btn-sm">
+                        Reserve Now
+                    </a>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+    </div>
+</section>
+
+<!-- ===================================================================
+     CTA BANNER
+     =================================================================== -->
+<section class="section" style="padding: 60px 0;">
+    <div class="container">
+        <div style="background: linear-gradient(135deg, #142244 0%, #0D162C 100%); border: 1px solid var(--border-accent); border-radius: var(--radius-lg); padding: 50px 40px; text-align: center; position: relative; overflow: hidden; box-shadow: var(--shadow-lg);">
+            <h2 style="font-size: 2.2rem; margin-bottom: 14px;">Ready to Experience Smarter EV Charging?</h2>
+            <p style="color: var(--text-secondary); max-width: 600px; margin: 0 auto 28px; font-size: 1.05rem;">
+                Join hundreds of EV drivers avoiding charging queues and enjoying guaranteed slot availability every trip.
+            </p>
+            <div style="display: flex; justify-content: center; gap: 16px; flex-wrap: wrap;">
+                <a href="{{ url_for('find_stations') }}" class="btn btn-primary btn-lg">
+                    <i class="fa-solid fa-magnifying-glass-location"></i> Explore All Stations
+                </a>
+                <a href="{{ url_for('register') }}" class="btn btn-secondary btn-lg">
+                    <i class="fa-solid fa-user-plus"></i> Create Driver Account
+                </a>
+            </div>
+        </div>
+    </div>
+</section>
+{% endblock %}
+

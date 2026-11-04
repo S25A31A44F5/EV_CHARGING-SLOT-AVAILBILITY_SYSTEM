@@ -1,0 +1,194 @@
+{% extends "base.html" %}
+
+{% block title %}My Bookings | EV Charge{% endblock %}
+
+{% block content %}
+<section class="section" style="padding-top: 40px;">
+    <div class="container">
+        <!-- Header -->
+        <div style="display: flex; justify-content: space-between; align-items: flex-end; margin-bottom: 32px; flex-wrap: wrap; gap: 16px;">
+            <div>
+                <span class="section-tag">Driver Booking Management</span>
+                <h1 style="font-size: 2.3rem; margin-bottom: 6px;">My Charging Reservations</h1>
+                <p style="color: var(--text-secondary); font-size: 1rem;">Track your upcoming charging sessions, past receipts, and reservation status.</p>
+            </div>
+            <a href="{{ url_for('reserve_slot') }}" class="btn btn-primary">
+                <i class="fa-solid fa-plus"></i> New Reservation
+            </a>
+        </div>
+
+        <!-- Custom Tabs -->
+        <div style="display: flex; gap: 12px; margin-bottom: 28px; border-bottom: 1px solid var(--border-color); padding-bottom: 12px;">
+            <button class="btn btn-secondary btn-sm active-tab-btn" onclick="switchBookingTab('upcoming', this)">
+                <i class="fa-solid fa-clock"></i> Upcoming ({{ upcoming|length }})
+            </button>
+            <button class="btn btn-secondary btn-sm" onclick="switchBookingTab('completed', this)">
+                <i class="fa-solid fa-circle-check"></i> Completed ({{ completed|length }})
+            </button>
+            <button class="btn btn-secondary btn-sm" onclick="switchBookingTab('cancelled', this)">
+                <i class="fa-solid fa-ban"></i> Cancelled ({{ cancelled|length }})
+            </button>
+        </div>
+
+        <!-- Upcoming Tab Content -->
+        <div id="tab-upcoming" class="booking-tab-pane">
+            {% if upcoming %}
+                <div class="cards-grid">
+                    {% for res in upcoming %}
+                    <div class="station-card" style="border-left: 4px solid #10B981;">
+                        <div class="station-card-header">
+                            <div>
+                                <span style="font-size: 0.75rem; color: var(--text-muted); font-family: 'Outfit';">REF: {{ res.reservation_id }}</span>
+                                <h3 class="station-name">{{ res.station.station_name }}</h3>
+                                <p class="station-location"><i class="fa-solid fa-location-dot" style="color: var(--electric-cyan);"></i> {{ res.station.address }}</p>
+                            </div>
+                            <span class="badge badge-success">Confirmed</span>
+                        </div>
+
+                        <ul class="station-specs">
+                            <li>
+                                <span>Date & Time</span>
+                                <span style="color: var(--electric-cyan);">{{ res.reservation_date.strftime('%d %b %Y') }} @ {{ res.start_time }}</span>
+                            </li>
+                            <li>
+                                <span>Charger Bay</span>
+                                <span>{{ res.charger.charger_code }} ({{ res.charger.charger_type }})</span>
+                            </li>
+                            <li>
+                                <span>Vehicle</span>
+                                <span>{{ res.vehicle_type }} ({{ res.vehicle_number }})</span>
+                            </li>
+                            <li>
+                                <span>Est. Amount</span>
+                                <span style="color: #10B981;">₹{{ "%.2f"|format(res.estimated_cost) }}</span>
+                            </li>
+                        </ul>
+
+                        <div class="station-card-actions">
+                            <a href="{{ url_for('booking_confirmation', reservation_id=res.reservation_id) }}" class="btn btn-secondary btn-sm">
+                                <i class="fa-solid fa-file-invoice"></i> View Details
+                            </a>
+                            <button class="btn btn-danger btn-sm" onclick="cancelBooking('{{ res.reservation_id }}')">
+                                <i class="fa-solid fa-xmark"></i> Cancel Booking
+                            </button>
+                        </div>
+                    </div>
+                    {% endfor %}
+                </div>
+            {% else %}
+                <div style="text-align: center; padding: 60px 20px; background: var(--bg-card); border-radius: var(--radius-lg); border: 1px dashed var(--border-color);">
+                    <i class="fa-solid fa-calendar-xmark" style="font-size: 3rem; color: var(--text-muted); margin-bottom: 16px;"></i>
+                    <h3>No Upcoming Reservations</h3>
+                    <p style="color: var(--text-secondary); margin-top: 8px;">You don't have any active charging reservations scheduled.</p>
+                    <a href="{{ url_for('find_stations') }}" class="btn btn-primary btn-sm" style="margin-top: 18px;">
+                        <i class="fa-solid fa-bolt"></i> Find a Station to Book
+                    </a>
+                </div>
+            {% endif %}
+        </div>
+
+        <!-- Completed Tab Content -->
+        <div id="tab-completed" class="booking-tab-pane" style="display: none;">
+            {% if completed %}
+                <div class="cards-grid">
+                    {% for res in completed %}
+                    <div class="station-card" style="opacity: 0.95;">
+                        <div class="station-card-header">
+                            <div>
+                                <span style="font-size: 0.75rem; color: var(--text-muted); font-family: 'Outfit';">REF: {{ res.reservation_id }}</span>
+                                <h3 class="station-name">{{ res.station.station_name }}</h3>
+                                <p class="station-location"><i class="fa-solid fa-location-dot"></i> {{ res.station.address }}</p>
+                            </div>
+                            <span class="badge badge-info">Completed</span>
+                        </div>
+
+                        <ul class="station-specs">
+                            <li><span>Date</span><span>{{ res.reservation_date.strftime('%d %b %Y') }}</span></li>
+                            <li><span>Time Window</span><span>{{ res.start_time }} - {{ res.end_time }}</span></li>
+                            <li><span>Charger Point</span><span>{{ res.charger.charger_code }}</span></li>
+                            <li><span>Billed Amount</span><span style="color: #10B981;">₹{{ "%.2f"|format(res.estimated_cost) }}</span></li>
+                        </ul>
+
+                        <div class="station-card-actions">
+                            <a href="{{ url_for('booking_confirmation', reservation_id=res.reservation_id) }}" class="btn btn-secondary btn-sm" style="grid-column: 1/-1;">
+                                <i class="fa-solid fa-receipt"></i> View Receipt
+                            </a>
+                        </div>
+                    </div>
+                    {% endfor %}
+                </div>
+            {% else %}
+                <div style="text-align: center; padding: 48px; background: var(--bg-card); border-radius: var(--radius-lg); border: 1px dashed var(--border-color); color: var(--text-secondary);">
+                    No completed charging sessions recorded yet.
+                </div>
+            {% endif %}
+        </div>
+
+        <!-- Cancelled Tab Content -->
+        <div id="tab-cancelled" class="booking-tab-pane" style="display: none;">
+            {% if cancelled %}
+                <div class="cards-grid">
+                    {% for res in cancelled %}
+                    <div class="station-card" style="opacity: 0.75;">
+                        <div class="station-card-header">
+                            <div>
+                                <span style="font-size: 0.75rem; color: var(--text-muted); font-family: 'Outfit';">REF: {{ res.reservation_id }}</span>
+                                <h3 class="station-name">{{ res.station.station_name }}</h3>
+                                <p class="station-location"><i class="fa-solid fa-location-dot"></i> {{ res.station.address }}</p>
+                            </div>
+                            <span class="badge badge-danger">Cancelled</span>
+                        </div>
+
+                        <ul class="station-specs">
+                            <li><span>Original Date</span><span>{{ res.reservation_date.strftime('%d %b %Y') }}</span></li>
+                            <li><span>Slot</span><span>{{ res.start_time }}</span></li>
+                            <li><span>Charger</span><span>{{ res.charger.charger_code }}</span></li>
+                        </ul>
+
+                        <div class="station-card-actions">
+                            <a href="{{ url_for('reserve_slot', station_id=res.station_id) }}" class="btn btn-outline btn-sm" style="grid-column: 1/-1;">
+                                <i class="fa-solid fa-rotate-right"></i> Re-book Slot
+                            </a>
+                        </div>
+                    </div>
+                    {% endfor %}
+                </div>
+            {% else %}
+                <div style="text-align: center; padding: 48px; background: var(--bg-card); border-radius: var(--radius-lg); border: 1px dashed var(--border-color); color: var(--text-secondary);">
+                    No cancelled reservations.
+                </div>
+            {% endif %}
+        </div>
+    </div>
+</section>
+{% endblock %}
+
+{% block extra_js %}
+<script>
+function switchBookingTab(tabName, btnElement) {
+    document.querySelectorAll('.booking-tab-pane').forEach(el => el.style.display = 'none');
+    document.querySelectorAll('.active-tab-btn').forEach(btn => btn.classList.remove('active-tab-btn', 'btn-primary'));
+    
+    document.getElementById(`tab-${tabName}`).style.display = 'block';
+    btnElement.classList.add('active-tab-btn', 'btn-primary');
+}
+
+async function cancelBooking(reservationId) {
+    if (!confirm(`Are you sure you want to cancel reservation ${reservationId}?`)) return;
+
+    try {
+        const resp = await fetch(`/api/reservation/${reservationId}/cancel`, { method: 'POST' });
+        const res = await resp.json();
+        if (res.success) {
+            showToast(res.message, 'success');
+            setTimeout(() => window.location.reload(), 800);
+        } else {
+            showToast(res.message, 'danger');
+        }
+    } catch (err) {
+        showToast('Network error while cancelling booking.', 'danger');
+    }
+}
+</script>
+{% endblock %}
+

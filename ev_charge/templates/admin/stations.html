@@ -1,0 +1,134 @@
+{% extends "admin/base_admin.html" %}
+
+{% block title %}Station Management | Admin Portal{% endblock %}
+
+{% block admin_content %}
+<div>
+    <!-- Header -->
+    <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 28px; flex-wrap: wrap; gap: 16px;">
+        <div>
+            <h1 class="admin-header-title">Charging Station Management</h1>
+            <p style="color: var(--text-secondary); font-size: 0.95rem;">Configure physical EV stations, location coordinates, and socket bays</p>
+        </div>
+        <button type="button" class="btn btn-primary" id="openAddStationModal">
+            <i class="fa-solid fa-plus"></i> Add Charging Station
+        </button>
+    </div>
+
+    <!-- Stations Table (Section 14) -->
+    <div class="table-responsive">
+        <table class="custom-table">
+            <thead>
+                <tr>
+                    <th>Station Name</th>
+                    <th>Location / Address</th>
+                    <th>Total Chargers</th>
+                    <th>Available</th>
+                    <th>Occupied</th>
+                    <th>Operational Status</th>
+                    <th>Actions</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for st in stations %}
+                <tr>
+                    <td>
+                        <strong style="color: #FFFFFF; font-size: 1rem;">{{ st.station_name }}</strong>
+                        <div style="font-size: 0.78rem; color: var(--text-muted);"><i class="fa-regular fa-clock"></i> {{ st.operating_hours }}</div>
+                    </td>
+                    <td>
+                        <div>{{ st.address }}</div>
+                        <div style="font-size: 0.75rem; color: var(--text-muted);">Lat: {{ "%.4f"|format(st.latitude) }}, Lon: {{ "%.4f"|format(st.longitude) }}</div>
+                    </td>
+                    <td><strong>{{ st.total_chargers }}</strong></td>
+                    <td><span style="color: #10B981; font-weight: 700;">{{ st.available_chargers }}</span></td>
+                    <td><span style="color: #EF4444; font-weight: 700;">{{ st.occupied_chargers }}</span></td>
+                    <td>
+                        <span class="badge {{ st.availability_badge.class }}">{{ st.status }} ({{ st.availability_badge.text }})</span>
+                    </td>
+                    <td>
+                        <div style="display: flex; gap: 8px;">
+                            <a href="{{ url_for('station_detail', station_id=st.station_id) }}" class="btn btn-secondary btn-sm" target="_blank" title="View Public Station Page">
+                                <i class="fa-solid fa-eye"></i> View
+                            </a>
+                            <form method="POST" action="{{ url_for('api_admin_delete_station', station_id=st.station_id) }}" onsubmit="return confirm('Are you sure you want to delete station {{ st.station_name }} and all its chargers?');">
+                                <button type="submit" class="btn btn-danger btn-sm" title="Delete Station">
+                                    <i class="fa-solid fa-trash"></i>
+                                </button>
+                            </form>
+                        </div>
+                    </td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+
+    <!-- Add Charging Station Modal Form (Section 14 Requirement) -->
+    <div class="modal-overlay" id="addStationModal">
+        <div class="modal-dialog">
+            <div class="modal-header">
+                <h3 style="font-size: 1.25rem;"><i class="fa-solid fa-plus-circle" style="color: var(--electric-cyan); margin-right: 8px;"></i> Add Charging Station</h3>
+                <button type="button" class="alert-close close-modal">&times;</button>
+            </div>
+
+            <form method="POST" action="{{ url_for('api_admin_add_station') }}">
+                <div class="modal-body">
+                    <div class="form-group">
+                        <label class="form-label">Station Name *</label>
+                        <input type="text" name="station_name" class="form-control" placeholder="e.g., VoltNova Express Hub" required>
+                    </div>
+
+                    <div class="form-group">
+                        <label class="form-label">Address / Landmark *</label>
+                        <input type="text" name="address" class="form-control" placeholder="e.g., Near Smart City Park, Kakinada" required>
+                    </div>
+
+                    <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 14px;">
+                        <div class="form-group">
+                            <label class="form-label">Latitude</label>
+                            <input type="number" step="0.000001" name="latitude" class="form-control" value="16.985000" required>
+                        </div>
+                        <div class="form-group">
+                            <label class="form-label">Longitude</label>
+                            <input type="number" step="0.000001" name="longitude" class="form-control" value="82.245000" required>
+                        </div>
+                    </div>
+
+                    <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 14px;">
+                        <div class="form-group">
+                            <label class="form-label">Operating Hours</label>
+                            <input type="text" name="operating_hours" class="form-control" value="24/7 Automated Access">
+                        </div>
+                        <div class="form-group">
+                            <label class="form-label">Pricing (₹ / kWh)</label>
+                            <input type="number" step="0.5" name="price_per_kwh" class="form-control" value="14.00">
+                        </div>
+                    </div>
+
+                    <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 14px;">
+                        <div class="form-group">
+                            <label class="form-label">Charging Types</label>
+                            <select name="charger_type" class="form-control">
+                                <option value="DC Fast Charging">DC Fast Charging (60 kW)</option>
+                                <option value="Rapid Charging">Rapid Charging (150 kW)</option>
+                                <option value="AC Charging">AC Charging (22 kW)</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label class="form-label">Number of Chargers</label>
+                            <input type="number" name="num_chargers" class="form-control" value="4" min="1" max="16">
+                        </div>
+                    </div>
+                </div>
+
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary close-modal">Cancel</button>
+                    <button type="submit" class="btn btn-primary">Create Station</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
